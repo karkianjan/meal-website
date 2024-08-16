@@ -17,6 +17,7 @@ export const listMealCategories = () => {
 
   export const filterMealsByIngredient = (ingredient) => {
     return axios.get(`${API_BASE_URL}/filter.php?i=${ingredient}`);
+    
   };
 
   export const listMealsByFirstLetter = (letter) => {
