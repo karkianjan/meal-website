@@ -1,51 +1,49 @@
-
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { lookupMealById } from '../services/api';
+import { useParams, Link } from 'react-router-dom';
+import { filterMealsByCategory } from '../services/api';
 
-const MealDetail = () => {
-  const { id } = useParams();
-  const [meal, setMeal] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+const CategoryDetail = () => {
+    const { categoryName } = useParams();
+    const [meals, setMeals] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
-  useEffect(() => {
-    const fetchMeal = async () => {
-      try {
-        const response = await lookupMealById(id);
-        const meal = response.data.meals ? response.data.meals[0] : null;
-        if (meal) {
-          setMeal(meal);
-        } else {
-          setError('No meal found');
-        }
-      } catch (error) {
-        setError('Error fetching item');
-        console.error('Error fetching item:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
+    useEffect(() => {
+        const fetchMeals = async () => {
+            try {
+                const response = await filterMealsByCategory(categoryName);
+                setMeals(response.data.meals || []);
+            } catch (error) {
+                setError('Error fetching meals');
+                console.error('Error fetching meals:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
 
-    fetchMeal();
-  }, [id]);
+        fetchMeals();
+    }, [categoryName]);
 
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>{error}</div>;
+    if (loading) return <div>Loading...</div>;
+    if (error) return <div>{error}</div>;
 
-  return (
-    <div>
-      {meal ? (
-        <>
-          <h1>{meal.strMeal}</h1>
-          <img src={meal.strMealThumb} alt={meal.strMeal} />
-          <p>{meal.strInstructions}</p>
-        </>
-      ) : (
-        <div>No details available</div>
-      )}
-    </div>
-  );
+    return (
+        <div className="px-2 mx-6 my-4">
+            <h2 className="text-xl font-bold mb-4">{categoryName} Meals</h2>
+            <div className="grid md:grid-cols-4 gap-5">
+                {meals.map((meal) => (
+                    <div key={meal.idMeal} className="flex flex-col items-center max-w-sm rounded overflow-hidden shadow-md shadow-gray-600 transition-transform duration-300 ease-in-out hover:scale-105 my-2 mx-2">
+                        <Link to={`/meal/${meal.idMeal}`}>
+                            <img src={meal.strMealThumb} alt={meal.strMeal} />
+                            <h3 className="grid place-items-center py-4 font-normal text-sm">
+                                {meal.strMeal}
+                            </h3>
+                        </Link>
+                    </div>
+                ))}
+            </div>
+        </div>
+    );
 };
 
-export default MealDetail;
+export default CategoryDetail;

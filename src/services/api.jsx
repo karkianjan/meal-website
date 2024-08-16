@@ -15,9 +15,8 @@ export const listMealCategories = () => {
     return axios.get(`${API_BASE_URL}/lookup.php?i=${mealId}`);
   };
 
-  export const filterMealsByIngredient = (ingredient) => {
-    return axios.get(`${API_BASE_URL}/filter.php?i=${ingredient}`);
-    
+  export const filterMealsByCategory = (category) => {
+    return axios.get(`${API_BASE_URL}/filter.php?i=${category}`);
   };
 
   export const listMealsByFirstLetter = (letter) => {
