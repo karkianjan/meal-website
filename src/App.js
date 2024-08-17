@@ -1,8 +1,8 @@
 import "./App.css";
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import MealCategories from "./mealCategories/mealCategories";
-import CategoryDetail from "./mealCategories/mealDetails";
+import MealCategories from "./categories/mealCategories";
+import CategoryDetail from "./categories/mealDetails";
 
 function App() {
   return (

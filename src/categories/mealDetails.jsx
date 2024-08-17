@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { filterMealsByCategory } from '../services/api';
+import { lookupMealById } from '../services/api';
+import { listMealCategories } from '../services/api';
+
 
 const CategoryDetail = () => {
     const { categoryName } = useParams();
@@ -11,7 +14,7 @@ const CategoryDetail = () => {
     useEffect(() => {
         const fetchMeals = async () => {
             try {
-                const response = await filterMealsByCategory(categoryName);
+                const response = await filterMealsByCategory(categoryName );
                 setMeals(response.data.meals || []);
             } catch (error) {
                 setError('Error fetching meals');
