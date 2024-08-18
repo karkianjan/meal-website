@@ -11,6 +11,7 @@ const MealDetail = () => {
     useEffect(() => {
         const fetchMeal = async () => {
             try {
+                setLoading(true);
                 const response = await lookupMealById(mealId);
                 setMeal(response.data.meals[0]);
             } catch (error) {
@@ -29,14 +30,12 @@ const MealDetail = () => {
 
     return (
         <div className="px-4 mx-auto my-8 max-w-4xl">
-            <h2 className="text-2xl font-bold mb-4">{meal.strMeal}</h2>
-            <img src={meal.strMealThumb} alt={meal.strMeal} className="rounded mb-4" />
-            <p className="mb-4"><strong>Category:</strong> {meal.strCategory}</p>
-            <p className="mb-4"><strong>Area:</strong> {meal.strArea}</p>
-            <p className="mb-4"><strong>Instructions:</strong> {meal.strInstructions}</p>
-            <a href={meal.strYoutube} target="_blank" rel="noopener noreferrer" className="text-blue-500 underline">
+            <h2 className="text-2xl font-bold mb-4 flex place-content-center">{meal.strMeal}</h2>
+            <a href={meal.strYoutube} target="_blank" rel="noopener noreferrer" className="text-blue-500 w-8 h-7">
                 Watch on YouTube
             </a>
+            <p className="mb-4  "><strong className='text-2xl font-bold flex place-content-center '>Steps:<br/></strong> {meal.strInstructions}</p>
+            <p>{meal.ingredents}Ingredients</p>
         </div>
     );
 };
