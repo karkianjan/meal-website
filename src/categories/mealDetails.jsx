@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { filterMealsByCategory } from '../services/api';
-import MealCategories from './mealCategories';
-import { lookupMealById } from '../services/api';
-import { listMealCategories } from '../services/api';
 
 
 const CategoryDetail = () => {
@@ -33,7 +30,7 @@ const CategoryDetail = () => {
 
     return (
         <div className="px-2 mx-6 my-4">
-            <h2 className="text-xl font-bold " > <button > <a href='/MealCategories'>Go Back</a></button></h2>
+            <h2 className="text-xl font-bold " > </h2>
             <div className="grid md:grid-cols-6 gap-5">
                 {meals.map((meal) => (
                     <div key={meal.idMeal} className="flex flex-col items-center max-w-sm rounded overflow-hidden shadow-md shadow-gray-600 transition-transform duration-300 ease-in-out hover:scale-105 my-2 mx-2">

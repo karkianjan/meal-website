@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { lookupMealById } from '../services/api';
+import ReactPlayer from 'react-player';
 
 const MealDetail = () => {
     const { mealId } = useParams();
@@ -11,7 +12,6 @@ const MealDetail = () => {
     useEffect(() => {
         const fetchMeal = async () => {
             try {
-                setLoading(true);
                 const response = await lookupMealById(mealId);
                 setMeal(response.data.meals[0]);
             } catch (error) {
@@ -28,14 +28,40 @@ const MealDetail = () => {
     if (loading) return <div>Loading...</div>;
     if (error) return <div>{error}</div>;
 
+    const ingredients = [];
+    for (let i = 1; i <= 20; i++) {
+        const ingredient = meal[`strIngredient${i}`];
+        if (ingredient) {
+            ingredients.push(ingredient);
+        }
+    }
+
     return (
-        <div className="px-4 mx-auto my-8 max-w-4xl">
-            <h2 className="text-2xl font-bold mb-4 flex place-content-center">{meal.strMeal}</h2>
-            <a href={meal.strYoutube} target="_blank" rel="noopener noreferrer" className="text-blue-500 w-8 h-7">
-                Watch on YouTube
-            </a>
-            <p className="mb-4  "><strong className='text-2xl font-bold flex place-content-center '>Steps:<br/></strong> {meal.strInstructions}</p>
-            <p>{meal.ingredents}Ingredients</p>
+        <div className="mx-7 my-8 rounded-lg border overflow-hidden shadow-gray-600 shadow-md">
+            {meal.strYoutube && (
+                <div className="player-wrapper">
+                    <ReactPlayer
+                        className="react-player"
+                        url={meal.strYoutube}
+                        width="100%"
+                        controls={true}
+                    />
+                </div>
+            )}
+           
+            <p className="mb-4 px-5">
+                <strong className='text-2xl font-bold flex place-content-center py-10'>Steps:<br/></strong> 
+                {meal.strInstructions}
+            </p>
+
+            <p className='flex place-content-center font-bold text-2xl py-6'>Ingredients:</p>
+            <ul className=" grid md:grid-cols-3 px-96 gap-x-20   ">
+                {ingredients.map((ingredient, index) => (
+                    <p key={index} className="text-xl  font-semibold border rounded-lg text-white bg-gray-400 mb-2 p-2 flex justify-center">
+                        {ingredient}
+                    </p>
+                ))}
+            </ul>
         </div>
     );
 };
