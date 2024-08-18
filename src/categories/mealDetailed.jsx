@@ -2,12 +2,19 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { lookupMealById } from '../services/api';
 import ReactPlayer from 'react-player';
+import { useNavigate } from 'react-router-dom';
 
 const MealDetail = () => {
     const { mealId } = useParams();
     const [meal, setMeal] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+
+    const navigate = useNavigate();
+
+    const handleBack = () => {
+        navigate(-1);
+    }
 
     useEffect(() => {
         const fetchMeal = async () => {
@@ -37,7 +44,11 @@ const MealDetail = () => {
     }
 
     return (
-        <div className="mx-7 my-8 rounded-lg border overflow-hidden shadow-gray-600 shadow-md">
+        <div>
+        <h2 className="text-xl font-bold mx-8 border border-xl my-5 bg-gray-300 w-24 h-12 place-content-center text-center  " >
+        <button onClick={handleBack}>Go Back</button>
+        </h2>
+        <div className="mx-7  rounded-lg border overflow-hidden shadow-gray-600 shadow-md">
             {meal.strYoutube && (
                 <div className="player-wrapper">
                     <ReactPlayer
@@ -63,7 +74,9 @@ const MealDetail = () => {
                 ))}
             </ul>
         </div>
+        </div>
     );
+
 };
 
 export default MealDetail;
